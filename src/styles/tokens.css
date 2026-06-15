@@ -17,6 +17,7 @@
   --border: #e4e4e7;
   --input: #e4e4e7;
   --ring: #7c5cff;
+  --overlay: rgb(0 0 0 / 0.5);
   --radius: 0.5rem;
 }
 
@@ -39,4 +40,5 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
 }

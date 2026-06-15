@@ -17,6 +17,17 @@ describe('Button', () => {
     expect(onClick).toHaveBeenCalledOnce()
   })
 
+  it('applies variant and size utility classes', () => {
+    render(
+      <Button variant="destructive" size="lg">
+        Delete
+      </Button>,
+    )
+    const button = screen.getByRole('button', { name: 'Delete' })
+    expect(button).toHaveClass('bg-destructive')
+    expect(button).toHaveClass('h-12')
+  })
+
   it('ignores clicks when disabled', async () => {
     const onClick = vi.fn()
     render(

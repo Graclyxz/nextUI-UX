@@ -29,6 +29,13 @@ describe('Tabs', () => {
     expect(screen.getByText('Panel two')).toBeVisible()
   })
 
+  it('moves between tabs with arrow keys', async () => {
+    render(<Demo />)
+    await userEvent.click(screen.getByRole('tab', { name: 'One' }))
+    await userEvent.keyboard('{ArrowRight}')
+    expect(screen.getByText('Panel two')).toBeVisible()
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = render(<Demo />)
     expect(await axe(container)).toHaveNoViolations()
