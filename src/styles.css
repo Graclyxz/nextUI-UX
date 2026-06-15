@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@source './components';
+
+@import './styles/tokens.css';
+@import './styles/themes/classic-light.css';
+@import './styles/themes/classic-dark.css';
+@import './styles/themes/purple-night.css';

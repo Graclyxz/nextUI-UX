@@ -1,0 +1,21 @@
+[data-theme='classic-dark'] {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #141414;
+  --card-foreground: #fafafa;
+  --muted: #1f1f22;
+  --muted-foreground: #a1a1aa;
+  --primary: #7c5cff;
+  --primary-foreground: #ffffff;
+  --secondary: #1f1f22;
+  --secondary-foreground: #fafafa;
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #7c5cff;
+  --overlay: rgb(0 0 0 / 0.6);
+}
