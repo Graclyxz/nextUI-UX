@@ -1,0 +1,20 @@
+[data-theme='purple-night'] {
+  color-scheme: dark;
+  --background: #120d1f;
+  --foreground: #f5f3ff;
+  --card: #1b1430;
+  --card-foreground: #f5f3ff;
+  --muted: #241a3d;
+  --muted-foreground: #b9a8e0;
+  --primary: #a855f7;
+  --primary-foreground: #ffffff;
+  --secondary: #241a3d;
+  --secondary-foreground: #f5f3ff;
+  --accent: #2e2150;
+  --accent-foreground: #f5f3ff;
+  --destructive: #f43f5e;
+  --destructive-foreground: #ffffff;
+  --border: #2e2150;
+  --input: #2e2150;
+  --ring: #a855f7;
+}
