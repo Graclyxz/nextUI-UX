@@ -16,5 +16,5 @@
     "ignoreDeprecations": "6.0"
   },
   "include": ["src", ".storybook"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx", "vitest.setup.ts"]
+  "exclude": ["node_modules", "dist"]
 }
