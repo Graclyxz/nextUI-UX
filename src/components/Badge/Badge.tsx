@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Slot } from 'radix-ui'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn.js'
 
@@ -19,10 +20,14 @@ const badgeVariants = cva(
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  /** Render the styles onto the single child element instead of a <span>. */
+  asChild?: boolean
+}
 
-export function Badge({ className, variant, ...props }: BadgeProps) {
-  return <span className={cn(badgeVariants({ variant }), className)} {...props} />
+export function Badge({ className, variant, asChild = false, ...props }: BadgeProps) {
+  const Comp = asChild ? Slot.Root : 'span'
+  return <Comp className={cn(badgeVariants({ variant }), className)} {...props} />
 }
 
 export { badgeVariants }
