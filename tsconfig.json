@@ -12,7 +12,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src", ".storybook"],
   "exclude": ["node_modules", "dist"]

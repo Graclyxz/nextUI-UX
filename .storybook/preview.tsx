@@ -1,5 +1,4 @@
-import type { Preview } from '@storybook/react'
-import * as React from 'react'
+import type { Preview } from '@storybook/react-vite'
 import '../src/styles.css'
 
 // Theme toolbar drives the same data-theme attribute the library reads at runtime.
