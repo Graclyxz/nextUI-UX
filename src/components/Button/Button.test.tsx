@@ -39,6 +39,17 @@ describe('Button', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
+  it('renders as the child element when asChild is set', () => {
+    render(
+      <Button asChild>
+        <a href="/go">Link</a>
+      </Button>,
+    )
+    const link = screen.getByRole('link', { name: 'Link' })
+    expect(link).toHaveAttribute('href', '/go')
+    expect(link).toHaveClass('bg-primary')
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = render(<Button>Accessible</Button>)
     expect(await axe(container)).toHaveNoViolations()

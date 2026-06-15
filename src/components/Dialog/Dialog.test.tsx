@@ -38,6 +38,24 @@ describe('Dialog', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
+  it('supports a controlled open state', () => {
+    render(
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>Controlled</DialogTitle>
+        </DialogContent>
+      </Dialog>,
+    )
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('moves focus into the dialog when opened', async () => {
+    render(<Demo />)
+    await userEvent.click(screen.getByRole('button', { name: 'Open' }))
+    const dialog = await screen.findByRole('dialog')
+    expect(dialog).toContainElement(document.activeElement as HTMLElement)
+  })
+
   it('has no accessibility violations when open', async () => {
     const { container } = render(<Demo />)
     await userEvent.click(screen.getByRole('button', { name: 'Open' }))

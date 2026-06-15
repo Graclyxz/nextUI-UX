@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'vitest-axe'
@@ -18,6 +18,16 @@ describe('Checkbox', () => {
     const box = screen.getByRole('checkbox', { name: 'Accept terms' })
     await userEvent.click(box)
     expect(box).toHaveAttribute('data-state', 'unchecked')
+  })
+
+  it('respects a controlled checked state', async () => {
+    const onCheckedChange = vi.fn()
+    render(<Checkbox checked aria-label="Accept terms" onCheckedChange={onCheckedChange} />)
+    const box = screen.getByRole('checkbox', { name: 'Accept terms' })
+    expect(box).toHaveAttribute('data-state', 'checked')
+    await userEvent.click(box)
+    expect(onCheckedChange).toHaveBeenCalledWith(false)
+    expect(box).toHaveAttribute('data-state', 'checked')
   })
 
   it('has no accessibility violations', async () => {
