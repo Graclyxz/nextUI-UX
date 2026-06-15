@@ -41,10 +41,10 @@ nextUI-UX/
 │   │   └── cn.ts                   # clsx + tailwind-merge
 │   ├── styles/
 │   │   ├── tokens.css              # @theme: contrato de tokens semánticos
-│   │   └── themes/                 # un archivo por tema
-│   │       ├── claro-clasico.css
-│   │       ├── oscuro-clasico.css
-│   │       └── morado-noche.css
+│   │   └── themes/                 # un archivo por tema (identificadores en inglés)
+│   │       ├── classic-light.css
+│   │       ├── classic-dark.css
+│   │       └── purple-night.css
 │   ├── theme/
 │   │   └── ThemeProvider.tsx       # wrapper sobre next-themes
 │   └── index.ts                    # barrel export público
@@ -77,16 +77,16 @@ Un componente escribe `bg-[--primary] text-[--primary-foreground]` — es CIEGO 
 
 ### 4.2 Temas
 
-Un tema es un **mapa de valores** para esos tokens, aplicado por atributo:
+Un tema es un **mapa de valores** para esos tokens, aplicado por atributo. **El identificador del tema va en inglés**; la etiqueta visible la decide la app consumidora.
 
 ```css
-[data-theme="oscuro-clasico"] {
+[data-theme="classic-dark"] {
   color-scheme: dark;
   --background: #0a0a0a;
   --foreground: #fafafa;
   --primary: #7c5cff;
   --primary-foreground: #ffffff;
-  /* ...resto de roles */
+  /* resto de roles */
 }
 ```
 
@@ -98,10 +98,13 @@ Cambiar de tema = cambiar `data-theme` en `<html>`. Instantáneo, todos los comp
 
 ### 4.4 Alcance de temas en v1
 
-**Sistema completo + 3 temas de ejemplo**, para probar light, dark y acento de marca:
-1. **Claro Clásico** (LIGHT)
-2. **Oscuro Clásico** (DARK)
-3. **Morado Noche** (DARK, acento fuerte)
+**Sistema completo + 3 temas de ejemplo**, para probar light, dark y acento de marca. Identificador técnico en inglés / etiqueta de presentación sugerida:
+
+| `data-theme` (código) | Etiqueta sugerida (UI) | Esquema |
+|---|---|---|
+| `classic-light` | Claro Clásico | LIGHT |
+| `classic-dark` | Oscuro Clásico | DARK |
+| `purple-night` | Morado Noche | DARK (acento fuerte) |
 
 Agregar más temas después = solo un archivo CSS nuevo. No requiere cambios de código.
 
@@ -170,6 +173,11 @@ Cada componente nace con: `*.tsx`, `*.stories.tsx`, `*.test.tsx`, `index.ts`.
 ## 10. Tooling base
 
 TypeScript estricto, ESLint + Prettier.
+
+## 10.1 Convenciones de código
+
+- **Identificadores siempre en inglés** (variables, archivos, tokens, valores `data-theme`). Las etiquetas visibles para el usuario las decide la app consumidora.
+- **Comentarios cortos y precisos.** Describen el estado actual de lo que hace el código (qué ES), nunca el cambio que se hizo (nada de "se cambió", "se rehizo", "ahora hace X").
 
 ## 11. Fuera de alcance (v1 — explícito)
 
