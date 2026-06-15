@@ -310,7 +310,7 @@ export default config
 - [ ] **Step 2: Write `.storybook/preview.tsx`**
 
 ```tsx
-import type { Preview } from '@storybook/react'
+import type { Preview } from '@storybook/react-vite'
 import * as React from 'react'
 import '../src/styles.css'
 
@@ -716,7 +716,7 @@ Expected: PASS (4 tests).
 - [ ] **Step 5: Write `src/components/Button/Button.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from './Button'
 
 const meta: Meta<typeof Button> = {
@@ -829,7 +829,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Badge/Badge.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Badge } from './Badge'
 
 const meta: Meta<typeof Badge> = {
@@ -937,7 +937,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Input/Input.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Input } from './Input'
 
 const meta: Meta<typeof Input> = {
@@ -1082,7 +1082,7 @@ Expected: PASS (2 tests).
 - [ ] **Step 5: Write `src/components/Card/Card.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './Card'
 import { Button } from '../Button/Button'
 
@@ -1213,7 +1213,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Checkbox/Checkbox.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Checkbox } from './Checkbox'
 
 const meta: Meta<typeof Checkbox> = {
@@ -1320,7 +1320,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Switch/Switch.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Switch } from './Switch'
 
 const meta: Meta<typeof Switch> = {
@@ -1434,7 +1434,7 @@ Expected: PASS (2 tests).
 - [ ] **Step 5: Write `src/components/Tooltip/Tooltip.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './Tooltip'
 import { Button } from '../Button/Button'
 
@@ -1616,7 +1616,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Dialog/Dialog.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
   Dialog,
   DialogTrigger,
@@ -1782,7 +1782,7 @@ Expected: PASS (3 tests).
 - [ ] **Step 5: Write `src/components/Tabs/Tabs.stories.tsx`**
 
 ```tsx
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs'
 
 const meta: Meta<typeof Tabs> = {
@@ -1948,3 +1948,18 @@ git commit -m "feat: public barrel export, release config, and usage docs"
 - **Icons:** Check/X are inline SVGs, so `lucide-react` stays a consumer-only recommendation and is not a runtime dependency (consistent with spec §10, "no se empaqueta").
 - **Type consistency:** `cn` signature stable across all components; Radix wrappers consistently use `React.ComponentRef` + `React.ComponentPropsWithoutRef`; CVA `variant`/`size` names match between Button impl, story, and tests.
 - **Known external detail:** the `esbuild-plugin-preserve-directives` export name (Task 3) is the one version-sensitive line; verify against its README during execution. Everything else is self-contained.
+
+---
+
+## Implementation Deviations (recorded during execution)
+
+The code blocks above are the original plan. These adjustments were required against the real toolchain (Node 22, pnpm 11.7, TypeScript 6.0, tsup 8.5, Storybook 9, vitest-axe 0.1.0):
+
+1. **Build strategy (Task 3) — single-bundle does NOT preserve `'use client'`.** Bundling every component into one `dist/index.js` makes esbuild strip module-level directives ("Module level directives cause errors when bundled… was ignored"). Fixed by switching tsup to **per-file output** (`bundle: false`, glob entry of `src/**/*.{ts,tsx}` excluding tests/stories/d.ts). Each module keeps its own directive: interactive components emit `"use client"`, static ones (Badge, Card, Input) stay server-safe. The `esbuild-plugin-preserve-directives` plugin is not used.
+2. **Explicit ESM extensions.** With `bundle: false`, output keeps source import specifiers verbatim, so all relative imports/exports in built source use explicit `.js` extensions (e.g. `from '../../lib/cn.js'`, barrel uses `./components/Button/index.js`). Valid under `moduleResolution: bundler` and required for raw Node ESM resolution.
+3. **TypeScript 6 — `ignoreDeprecations: "6.0"`** added to tsconfig: tsup's dts step injects `baseUrl`, which TS 6 errors on as deprecated.
+4. **Storybook 9 type imports** come from `@storybook/react-vite` (the package `@storybook/react` does not exist in SB9). Applied to `preview.tsx` and every `*.stories.tsx`.
+5. **vitest-axe 0.1.0** ships an empty `extend-expect.js`; the `toHaveNoViolations` matcher is registered manually in `vitest.setup.ts`, and matcher types are augmented globally in `src/test-matchers.d.ts` (so test files type-check without being excluded from tsconfig). Verified axe genuinely detects violations (not a no-op).
+6. **CSS module declaration** `src/css.d.ts` (`declare module '*.css'`) for the stylesheet side-effect import.
+7. **No jsdom polyfills needed** for Radix (Checkbox/Switch/Tooltip/Dialog/Tabs pass clean in jsdom).
+8. **Initial release uses a manual changeset file** (`.changeset/foundation-set.md`, minor) instead of the interactive `pnpm changeset`.
