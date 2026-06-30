@@ -24,6 +24,11 @@ describe('Badge', () => {
     expect(screen.getByText('Tag')).toHaveClass('hover:bg-accent')
   })
 
+  it('applies the outline intent border', () => {
+    render(<Badge intent="outline">Tag</Badge>)
+    expect(screen.getByText('Tag')).toHaveClass('border-input')
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = render(<Badge>Status</Badge>)
     expect(await axe(container)).toHaveNoViolations()
