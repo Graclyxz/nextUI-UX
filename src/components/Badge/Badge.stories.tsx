@@ -6,13 +6,17 @@ const meta: Meta<typeof Badge> = {
   component: Badge,
   args: { children: 'Badge' },
   argTypes: {
-    variant: { control: 'select', options: ['default', 'secondary', 'destructive', 'outline'] },
+    intent: {
+      control: 'select',
+      options: ['default', 'secondary', 'outline', 'ghost', 'destructive'],
+    },
   },
 }
 export default meta
 type Story = StoryObj<typeof Badge>
 
 export const Default: Story = {}
-export const Secondary: Story = { args: { variant: 'secondary' } }
-export const Destructive: Story = { args: { variant: 'destructive' } }
-export const Outline: Story = { args: { variant: 'outline' } }
+export const Secondary: Story = { args: { intent: 'secondary' } }
+export const Outline: Story = { args: { intent: 'outline' } }
+export const Ghost: Story = { args: { intent: 'ghost' } }
+export const Destructive: Story = { args: { intent: 'destructive' } }

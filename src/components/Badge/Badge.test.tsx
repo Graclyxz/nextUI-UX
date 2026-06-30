@@ -14,6 +14,16 @@ describe('Badge', () => {
     expect(screen.getByText('Tag')).toHaveClass('custom-x')
   })
 
+  it('applies the secondary intent', () => {
+    render(<Badge intent="secondary">Tag</Badge>)
+    expect(screen.getByText('Tag')).toHaveClass('bg-secondary')
+  })
+
+  it('supports the ghost intent', () => {
+    render(<Badge intent="ghost">Tag</Badge>)
+    expect(screen.getByText('Tag')).toHaveClass('hover:bg-accent')
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = render(<Badge>Status</Badge>)
     expect(await axe(container)).toHaveNoViolations()
