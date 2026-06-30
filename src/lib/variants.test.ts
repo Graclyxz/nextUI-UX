@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { focusRing, controlSize, intentColors } from './variants'
+import { focusRing, controlSize, intentColors, disabledControl, disabledField, invalidField } from './variants'
 
 describe('variants contract', () => {
   it('exposes the 5 canonical intents in order', () => {
@@ -18,10 +18,15 @@ describe('variants contract', () => {
 
   it('uses semantic tokens, not raw hex', () => {
     const all = [focusRing, ...Object.values(controlSize), ...Object.values(intentColors)].join(' ')
-    expect(all).not.toMatch(/#[0-9a-fA-F]{3,6}/)
+    expect(all).not.toMatch(/#[0-9a-fA-F]{3,8}/)
   })
 
   it('ties the focus ring to the ring token', () => {
     expect(focusRing).toContain('focus-visible:ring-ring')
+  })
+
+  it('disabled and invalid fragments are semantic, not raw hex', () => {
+    const all = [disabledControl, disabledField, invalidField].join(' ')
+    expect(all).not.toMatch(/#[0-9a-fA-F]{3,8}/)
   })
 })
