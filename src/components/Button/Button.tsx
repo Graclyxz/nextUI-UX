@@ -14,7 +14,7 @@ const buttonVariants = cva(
   {
     variants: {
       intent: intentColors,
-      size: { ...controlSize, icon: 'h-10 w-10' },
+      size: { ...controlSize, icon: 'h-10 w-10 text-sm' },
     },
     defaultVariants: { intent: 'default', size: 'md' },
   },

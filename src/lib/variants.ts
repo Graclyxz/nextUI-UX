@@ -6,6 +6,7 @@
 export const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
 export const disabledControl = 'disabled:pointer-events-none disabled:opacity-50'
+// disabledField/invalidField are contract-ready but unwired until the Field components (Input et al.) are migrated.
 export const disabledField = 'disabled:cursor-not-allowed disabled:opacity-50'
 export const invalidField =
   'aria-invalid:border-destructive aria-invalid:ring-destructive'
