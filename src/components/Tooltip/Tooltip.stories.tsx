@@ -14,7 +14,7 @@ export const Default: Story = {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline">Hover me</Button>
+          <Button intent="outline">Hover me</Button>
         </TooltipTrigger>
         <TooltipContent>Helpful hint</TooltipContent>
       </Tooltip>

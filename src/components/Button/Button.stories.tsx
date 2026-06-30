@@ -6,7 +6,10 @@ const meta: Meta<typeof Button> = {
   component: Button,
   args: { children: 'Button' },
   argTypes: {
-    variant: { control: 'select', options: ['default', 'destructive', 'outline', 'ghost'] },
+    intent: {
+      control: 'select',
+      options: ['default', 'secondary', 'outline', 'ghost', 'destructive'],
+    },
     size: { control: 'select', options: ['sm', 'md', 'lg', 'icon'] },
   },
 }
@@ -14,6 +17,7 @@ export default meta
 type Story = StoryObj<typeof Button>
 
 export const Default: Story = {}
-export const Destructive: Story = { args: { variant: 'destructive' } }
-export const Outline: Story = { args: { variant: 'outline' } }
-export const Ghost: Story = { args: { variant: 'ghost' } }
+export const Secondary: Story = { args: { intent: 'secondary' } }
+export const Outline: Story = { args: { intent: 'outline' } }
+export const Ghost: Story = { args: { intent: 'ghost' } }
+export const Destructive: Story = { args: { intent: 'destructive' } }

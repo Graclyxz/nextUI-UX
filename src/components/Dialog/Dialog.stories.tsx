@@ -26,7 +26,7 @@ export const Default: Story = {
         <DialogTitle>Confirm action</DialogTitle>
         <DialogDescription>This cannot be undone.</DialogDescription>
         <DialogClose asChild>
-          <Button variant="outline">Close</Button>
+          <Button intent="outline">Close</Button>
         </DialogClose>
       </DialogContent>
     </Dialog>
