@@ -50,6 +50,16 @@ Each lives in `src/components/<Name>/` with `<Name>.tsx`, `.test.tsx`, `.stories
 - Export the `*Variants` cva fn alongside the component.
 - `src/index.ts` is a flat barrel re-exporting every component's `index.ts`. **Imports use `.js` extensions** (`verbatimModuleSyntax` + bundler resolution) — match that.
 
+### Variant contract (`src/lib/variants.ts`)
+The canonical style vocabulary lives in one internal module — the single source of truth, not exported from the public barrel. Full spec: `docs/superpowers/specs/2026-06-30-variant-contract-design.md`.
+
+- **`intent`** (emphasis): `default`, `secondary`, `outline`, `ghost`, `destructive` — for action/label components (Button, Badge). Never put `intent` on a form field.
+- **`size`** (controls): `sm`/`md`/`lg` with shared heights (h-8/h-10/h-12); `icon` is Button-only.
+- **State** (form fields): validation is `invalid` via `aria-invalid`, not an intent.
+- Components import the fragments (`focusRing`, `disabledControl`, `disabledField`, `invalidField`, `controlSize`, `intentColors`) and compose them in their own `cva` base. They own only their geometry (padding/radius/shape).
+
+When adding or refactoring a component: use only canonical axes/values (never invent variant names), pull state/size/intent strings from `variants.ts` (don't retype them), and add a test asserting variant/size classes plus a story per variant and size.
+
 ### Testing
 vitest + jsdom + `@testing-library/react`. Every component test includes an **accessibility assertion** via `vitest-axe` (`expect(await axe(container)).toHaveNoViolations()`). The axe matcher is registered manually in `vitest.setup.ts` because `vitest-axe@0.1.0` ships an empty `extend-expect`. Keep the a11y assertion when adding components.
 
